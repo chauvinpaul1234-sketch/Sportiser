@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+x<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -341,7 +341,11 @@ var SUPABASE_KEY = 'sb_publishable_8z0QyLPN8MZHIhiMGQnGdg_TSsfgGWE';
 var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // Lien de paiement Stripe (sera lié au compte via l'email pré-rempli)
-var STRIPE_LINK = 'https://buy.stripe.com/bJe9ANbSJ1dyfyg9IIbQY01';
+var STRIPE_LINKS = {
+  hebdo:   'https://buy.stripe.com/14AfZb0a15tO4TCf32bQY03',
+  mensuel: 'https://buy.stripe.com/5kQfZb2i95tO0Dm6wwbQY02',
+  annuel:  'https://buy.stripe.com/7sY3cp3md6xS0Dm5ssbQY04'
+};
 
 var currentUser = null;   // objet user Supabase (ou null si déconnecté)
 var IS_PREMIUM = false;   // mis à jour après vérification du profil
@@ -459,19 +463,34 @@ document.getElementById('auth-modal').addEventListener('click', function(e){
 });
 
 // Construit l'URL Stripe avec l'email pré-rempli pour faciliter le lien compte ↔ paiement
-function getStripeLink(){
-  if(currentUser && currentUser.email){
-    return STRIPE_LINK + '?prefilled_email=' + encodeURIComponent(currentUser.email);
-  }
-  return STRIPE_LINK;
+function goToPremium(){
+  if(!currentUser){ openAuthModal(); return; }
+
+  var email = encodeURIComponent(currentUser.email);
+
+  // Remplace le contenu de la premium-overlay par un choix de formule
+  var overlay = document.querySelector('.premium-overlay');
+  overlay.innerHTML =
+    '<div class="premium-lock">⭐</div>'+
+    '<div class="premium-title">Choisir une formule</div>'+
+    '<div class="premium-sub">Sans engagement pour l\'hebdo et le mensuel.<br>Accès immédiat après paiement.</div>'+
+    '<div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px">'+
+      '<button onclick="openStripe(\'hebdo\')" style="font-family:var(--sans);font-weight:700;font-size:13px;color:#fff;background:var(--ink2);border:none;border-radius:var(--r-sm);padding:13px 20px;cursor:pointer;text-align:left">'+
+        '⚡ Hebdomadaire<span style="float:right;font-size:15px">2,99€<span style="font-size:11px;opacity:.7">/sem</span></span>'+
+      '</button>'+
+      '<button onclick="openStripe(\'mensuel\')" style="font-family:var(--sans);font-weight:700;font-size:13px;color:#fff;background:var(--blue);border:none;border-radius:var(--r-sm);padding:13px 20px;cursor:pointer;text-align:left">'+
+        '⭐ Mensuel<span style="float:right;font-size:15px">7,99€<span style="font-size:11px;opacity:.7">/mois</span></span>'+
+      '</button>'+
+      '<button onclick="openStripe(\'annuel\')" style="font-family:var(--sans);font-weight:700;font-size:13px;color:#fff;background:var(--green);border:none;border-radius:var(--r-sm);padding:13px 20px;cursor:pointer;text-align:left">'+
+        '🏆 Annuel <span style="font-size:11px;background:rgba(255,255,255,.2);padding:2px 7px;border-radius:4px">−48%</span><span style="float:right;font-size:15px">49,99€<span style="font-size:11px;opacity:.7">/an</span></span>'+
+      '</button>'+
+    '</div>'+
+    '<div class="premium-hint">Déjà payé ? <a onclick="location.reload()" style="color:var(--blue);cursor:pointer;text-decoration:underline">Recharge la page</a> après connexion.</div>';
 }
 
-function goToPremium(){
-  if(!currentUser){
-    openAuthModal();
-    return;
-  }
-  window.open(getStripeLink(), '_blank');
+function openStripe(plan){
+  var email = encodeURIComponent(currentUser.email);
+  window.open(STRIPE_LINKS[plan] + '?prefilled_email=' + email, '_blank');
 }
 
 // Stats par défaut pour les matchs sans données détaillées
