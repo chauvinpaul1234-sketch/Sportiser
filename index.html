@@ -645,8 +645,7 @@ async function refreshPremiumStatus() {
   try {
     var session = await sb.auth.getSession();
     var token = session.data.session.access_token;
-
-    var res = await fetch(SUPABASE_URL + '/functions/v1/check-premium', {
+    var res = await fetch('https://vtztvwszfcgxadgxqray.supabase.co/functions/v1/check-premium', {
       headers: { Authorization: 'Bearer ' + token }
     });
     var data = await res.json();
