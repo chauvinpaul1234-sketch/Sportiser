@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SporTiser — Analyse Statistique Football</title>
+<title>SporTiser — Analyses Statistiques Football</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -16,6 +15,7 @@
   --slate:#3b4a6b;
   --green:#1a7f54;--green-pale:#eaf6f0;
   --amber:#b45309;--amber-pale:#fdf6e7;
+  --purple:#6d4fc4;--purple-pale:#f1edfb;
   --sans:'Inter',system-ui,sans-serif;
   --mono:'Space Grotesk',monospace;
   --r:10px;--r-sm:7px;
@@ -24,145 +24,182 @@ html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;height:56px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100}
+nav{position:fixed;top:0;left:0;right:0;height:56px;background:rgba(255,255,255,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:100}
 .nav-logo{font-family:var(--mono);font-weight:800;font-size:18px;color:var(--ink);letter-spacing:-.3px;text-decoration:none}
 .nav-logo em{color:var(--blue);font-style:normal}
-.nav-cta{font-family:var(--sans);font-weight:600;font-size:13px;color:#fff;background:var(--ink);border:none;border-radius:var(--r-sm);padding:8px 16px;cursor:pointer;text-decoration:none;transition:opacity .15s}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-link{font-size:13px;font-weight:500;color:var(--ink3);text-decoration:none;padding:6px 10px;border-radius:var(--r-sm);transition:color .15s}
+.nav-link:hover{color:var(--ink2)}
+.nav-cta{font-family:var(--sans);font-weight:600;font-size:13px;color:#fff;background:var(--blue);border:none;border-radius:var(--r-sm);padding:8px 16px;cursor:pointer;text-decoration:none;transition:opacity .15s}
 .nav-cta:hover{opacity:.82}
 
 /* HERO */
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 60px;position:relative;overflow:hidden}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--blue);background:var(--blue-pale);border:1px solid var(--blue-pale2);padding:5px 12px;border-radius:20px;margin-bottom:24px;letter-spacing:.04em;text-transform:uppercase}
-.hero-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:pulse 1.8s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.hero h1{font-family:var(--mono);font-weight:800;font-size:clamp(32px,6vw,62px);color:var(--ink);letter-spacing:-1.5px;line-height:1.08;margin-bottom:20px;max-width:780px}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 60px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:var(--blue);background:var(--blue-pale);border:1px solid var(--blue-pale2);padding:5px 13px;border-radius:20px;margin-bottom:26px;letter-spacing:.05em;text-transform:uppercase}
+.hero-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.hero h1{font-family:var(--mono);font-weight:800;font-size:clamp(28px,5vw,58px);color:var(--ink);letter-spacing:-1.5px;line-height:1.07;margin-bottom:22px;max-width:760px}
 .hero h1 em{color:var(--blue);font-style:normal}
-.hero-sub{font-size:clamp(15px,2vw,18px);color:var(--ink2);max-width:520px;line-height:1.7;margin-bottom:36px}
+.hero-sub{font-size:clamp(15px,2vw,17px);color:var(--ink2);max-width:500px;line-height:1.75;margin-bottom:38px}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:48px}
-.btn-primary{font-family:var(--sans);font-weight:600;font-size:15px;color:#fff;background:var(--blue);border:none;border-radius:var(--r);padding:14px 28px;cursor:pointer;text-decoration:none;transition:opacity .15s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{font-family:var(--sans);font-weight:600;font-size:14.5px;color:#fff;background:var(--blue);border:none;border-radius:var(--r);padding:13px 26px;cursor:pointer;text-decoration:none;transition:opacity .15s;display:inline-flex;align-items:center;gap:7px}
 .btn-primary:hover{opacity:.88}
-.btn-secondary{font-family:var(--sans);font-weight:600;font-size:15px;color:var(--ink2);background:var(--surface);border:1px solid var(--line2);border-radius:var(--r);padding:14px 28px;cursor:pointer;text-decoration:none;transition:border-color .15s;display:inline-flex;align-items:center;gap:8px}
+.btn-secondary{font-family:var(--sans);font-weight:600;font-size:14.5px;color:var(--ink2);background:var(--surface);border:1px solid var(--line2);border-radius:var(--r);padding:13px 26px;cursor:pointer;text-decoration:none;transition:border-color .15s;display:inline-flex;align-items:center;gap:7px}
 .btn-secondary:hover{border-color:var(--blue)}
-.hero-disclaimer{font-size:11.5px;color:var(--ink3);max-width:420px;line-height:1.6}
+.hero-disclaimer{font-size:11.5px;color:var(--ink3);max-width:400px;line-height:1.65}
+
+/* MATRIX DEMO */
+.hero-matrix-demo{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:40px;width:100%;max-width:540px}
+.matrix-match-bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:13px 18px}
+.mmb-team{display:flex;align-items:center;gap:8px}
+.mmb-team.r{flex-direction:row-reverse}
+.mmb-flag{font-size:18px}
+.mmb-name{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--ink)}
+.mmb-center{text-align:center}
+.mmb-vs{font-size:10.5px;font-weight:600;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase}
+.mmb-xg{font-size:10px;color:var(--ink3);margin-top:2px}
+.matrix-table-wrap{overflow-x:auto;width:100%}
+table.mtx{border-collapse:separate;border-spacing:3px;margin:0 auto}
+table.mtx th{font-size:9.5px;font-weight:600;color:var(--ink3);padding:3px 6px;text-align:center;min-width:50px}
+table.mtx th.rh{text-align:right;padding-right:8px;min-width:auto}
+.mc{width:50px;height:38px;border-radius:6px;text-align:center;vertical-align:middle}
+.mc-score{display:block;font-size:7.5px;opacity:.55;font-family:var(--mono)}
+.mc-pct{display:block;font-size:12px;font-weight:700;font-family:var(--mono)}
+.mc-hot{background:#2d6be4;color:#fff}
+.mc-warm{background:rgba(45,107,228,.2);color:#1a4db8}
+.mc-cool{background:rgba(45,107,228,.07);color:#3b4a6b}
+.mc-cold{background:var(--surface2);color:var(--ink3)}
+.prob-bar-demo{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:13px 16px;width:100%}
+.pbd-label{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--ink3);margin-bottom:9px}
+.pbd-track{height:5px;background:var(--line);border-radius:3px;overflow:hidden;display:flex;margin-bottom:6px}
+.pf-h{height:100%;background:var(--blue)}
+.pf-d{height:100%;background:var(--line2)}
+.pf-a{height:100%;background:var(--slate)}
+.pbd-nums{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;font-weight:600}
 
 /* STATS BAND */
-.stats-band{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:28px 24px;display:flex;justify-content:center;gap:0}
-.stat-item{text-align:center;padding:0 36px;border-right:1px solid var(--line)}
+.stats-band{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:24px;display:flex;justify-content:center;flex-wrap:wrap}
+.stat-item{text-align:center;padding:10px 40px;border-right:1px solid var(--line)}
 .stat-item:last-child{border-right:none}
-.stat-val{font-family:var(--mono);font-weight:800;font-size:28px;color:var(--ink);letter-spacing:-.5px;line-height:1}
+.stat-val{font-family:var(--mono);font-weight:800;font-size:24px;color:var(--ink);letter-spacing:-.5px;line-height:1}
 .stat-lbl{font-size:11px;color:var(--ink3);margin-top:4px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
 
-/* SECTION */
+/* SECTIONS */
 section{padding:80px 24px}
-.section-inner{max-width:1000px;margin:0 auto}
+.section-inner{max-width:980px;margin:0 auto}
 .section-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
-.section-title{font-family:var(--mono);font-weight:800;font-size:clamp(22px,4vw,36px);color:var(--ink);letter-spacing:-.5px;margin-bottom:14px;line-height:1.15}
-.section-sub{font-size:15px;color:var(--ink2);max-width:500px;line-height:1.7;margin-bottom:48px}
+.section-title{font-family:var(--mono);font-weight:800;font-size:clamp(21px,3.5vw,34px);color:var(--ink);letter-spacing:-.5px;margin-bottom:14px;line-height:1.15}
+.section-sub{font-size:15px;color:var(--ink2);max-width:480px;line-height:1.75;margin-bottom:44px}
 
-/* HOW IT WORKS */
-.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.how-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:28px 24px}
-.how-num{font-family:var(--mono);font-weight:800;font-size:11px;color:var(--blue);background:var(--blue-pale);width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;letter-spacing:.04em}
-.how-title{font-family:var(--mono);font-weight:700;font-size:16px;color:var(--ink);margin-bottom:8px}
-.how-desc{font-size:13.5px;color:var(--ink2);line-height:1.7}
+/* HOW */
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.how-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px 22px}
+.how-step{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--blue);background:var(--blue-pale);width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.how-title{font-family:var(--mono);font-weight:700;font-size:15px;color:var(--ink);margin-bottom:8px}
+.how-desc{font-size:13px;color:var(--ink2);line-height:1.7}
+
+/* SCORES SECTION (dark) */
+.scores-section{background:var(--ink);padding:80px 24px}
+.scores-inner{max-width:980px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.scores-text .section-eyebrow{color:rgba(255,255,255,.4)}
+.scores-text .section-title{color:#fff}
+.scores-text .section-sub{color:rgba(255,255,255,.55);margin-bottom:28px}
+.scores-bullets{display:flex;flex-direction:column;gap:14px}
+.sb{display:flex;align-items:flex-start;gap:12px}
+.sb-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:7px}
+.sb-text{font-size:13.5px;color:rgba(255,255,255,.6);line-height:1.65}
+.sb-text strong{color:#fff;font-weight:600}
+.scores-visual{display:flex;flex-direction:column;gap:14px;align-items:center}
+.sv-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);text-align:center}
+table.dmtx{border-collapse:separate;border-spacing:3px;margin:0 auto}
+table.dmtx th{font-size:9px;font-weight:600;color:rgba(255,255,255,.35);padding:3px 6px;text-align:center;min-width:54px}
+table.dmtx th.rh{text-align:right;padding-right:8px;min-width:auto}
+.dc{width:54px;height:42px;border-radius:7px;text-align:center;vertical-align:middle}
+.dc-score{display:block;font-size:7.5px;font-family:var(--mono);opacity:.5}
+.dc-pct{display:block;font-size:12px;font-weight:700;font-family:var(--mono)}
+.dc-hot{background:rgba(255,255,255,.88);color:#111318}
+.dc-warm{background:rgba(255,255,255,.18);color:rgba(255,255,255,.75)}
+.dc-cool{background:rgba(255,255,255,.07);color:rgba(255,255,255,.35)}
+.dc-cold{background:rgba(255,255,255,.03);color:rgba(255,255,255,.18)}
+.sv-pills{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.sv-pill{font-size:11px;font-weight:500;color:rgba(255,255,255,.55);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);padding:5px 11px;border-radius:5px;font-family:var(--mono)}
+.sv-pill.featured{color:#93b8f5;background:rgba(45,107,228,.3);border-color:rgba(45,107,228,.4);font-weight:600}
 
 /* FEATURES */
-.features-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.feat-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:flex;gap:16px;align-items:flex-start}
-.feat-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.features-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.feat-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;display:flex;gap:14px;align-items:flex-start}
+.feat-icon{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
 .feat-icon.blue{background:var(--blue-pale)}
 .feat-icon.green{background:var(--green-pale)}
 .feat-icon.amber{background:var(--amber-pale)}
+.feat-icon.purple{background:var(--purple-pale)}
 .feat-icon.slate{background:var(--surface2)}
-.feat-title{font-family:var(--mono);font-weight:700;font-size:14px;color:var(--ink);margin-bottom:5px}
+.feat-title{font-family:var(--mono);font-weight:700;font-size:13.5px;color:var(--ink);margin-bottom:4px}
 .feat-desc{font-size:13px;color:var(--ink2);line-height:1.65}
 
-/* MOCK UI PREVIEW */
-.preview-wrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.06);max-width:680px;margin:0 auto}
-.preview-bar{background:var(--surface2);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;align-items:center;gap:8px}
-.preview-dot{width:10px;height:10px;border-radius:50%}
-.preview-url{font-family:var(--mono);font-size:11px;color:var(--ink3);background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:3px 12px;margin:0 auto}
-.preview-body{padding:20px}
-.preview-match-header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin-bottom:16px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:16px}
-.preview-team{display:flex;flex-direction:column;gap:4px}
-.preview-team.r{align-items:flex-end}
-.preview-flag{font-size:22px}
-.preview-name{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--ink)}
-.preview-center{text-align:center}
-.preview-score{font-family:var(--mono);font-weight:800;font-size:26px;color:var(--ink)}
-.preview-status{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-top:2px}
-.preview-prob-bar{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:10px}
-.preview-prob-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:8px}
-.preview-track{height:5px;background:var(--line);border-radius:3px;overflow:hidden;display:flex;margin-bottom:5px}
-.preview-fill-h{height:100%;background:var(--blue);width:62%}
-.preview-fill-d{height:100%;background:var(--line2);width:20%}
-.preview-fill-a{height:100%;background:var(--slate);width:18%}
-.preview-prob-nums{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;font-weight:600}
-.preview-paris-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.preview-paris-card{background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:10px 12px}
-.preview-paris-label{font-size:10px;color:var(--ink3);margin-bottom:4px}
-.preview-paris-val{font-family:var(--mono);font-weight:700;font-size:18px;color:var(--ink)}
-.preview-paris-pill{display:inline-block;font-size:8.5px;font-weight:700;padding:2px 6px;border-radius:3px;text-transform:uppercase;margin-top:4px}
-.pill-high{background:var(--green-pale);color:var(--green)}
-.pill-mid{background:var(--amber-pale);color:var(--amber)}
+/* DISCLAIMER */
+.disclaimer-band{background:var(--amber-pale);border-top:1px solid rgba(180,83,9,.1);border-bottom:1px solid rgba(180,83,9,.1);padding:14px 24px;text-align:center}
+.disclaimer-band p{font-size:12px;color:var(--amber);max-width:720px;margin:0 auto;line-height:1.65}
 
 /* PRICING */
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:780px;margin:0 auto}
-.pricing-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:28px 24px;position:relative}
+.pricing-outer{max-width:800px;margin:0 auto}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+.pricing-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px 22px;position:relative;display:flex;flex-direction:column}
 .pricing-card.featured{border-color:var(--blue);border-width:2px}
-.pricing-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10px;font-weight:700;color:var(--blue);background:var(--blue-pale);border:1px solid var(--blue-pale2);padding:3px 12px;border-radius:20px;white-space:nowrap;letter-spacing:.04em;text-transform:uppercase}
-.pricing-name{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.pricing-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10px;font-weight:700;color:var(--blue);background:var(--blue-pale);border:1px solid var(--blue-pale2);padding:3px 13px;border-radius:20px;white-space:nowrap;letter-spacing:.04em;text-transform:uppercase}
+.pricing-name{font-family:var(--mono);font-weight:700;font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px}
 .pricing-price{font-family:var(--mono);font-weight:800;font-size:32px;color:var(--ink);letter-spacing:-.5px;line-height:1}
-.pricing-period{font-size:12px;color:var(--ink3);margin-top:3px;margin-bottom:20px}
-.pricing-features{list-style:none;margin-bottom:24px;display:flex;flex-direction:column;gap:9px}
-.pricing-features li{font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:8px}
-.pricing-features li::before{content:'✓';font-size:11px;font-weight:700;color:var(--green);background:var(--green-pale);width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.pricing-cta{width:100%;font-family:var(--sans);font-weight:600;font-size:13.5px;color:var(--ink2);background:var(--surface2);border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 0;cursor:pointer;transition:all .15s;text-align:center;text-decoration:none;display:block}
+.pricing-price sup{font-size:15px;vertical-align:top;margin-top:5px;font-weight:600}
+.pricing-period{font-size:12px;color:var(--ink3);margin-top:4px;margin-bottom:18px}
+.pricing-sep{height:1px;background:var(--line);margin-bottom:16px}
+.pricing-features{list-style:none;margin-bottom:22px;display:flex;flex-direction:column;gap:8px;flex:1}
+.pricing-features li{font-size:12.5px;color:var(--ink2);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.pricing-features li::before{content:'✓';font-size:10px;font-weight:700;color:var(--green);background:var(--green-pale);width:17px;height:17px;min-width:17px;border-radius:4px;display:flex;align-items:center;justify-content:center;margin-top:1px;flex-shrink:0}
+.pricing-cta{width:100%;font-family:var(--sans);font-weight:600;font-size:13px;color:var(--ink2);background:var(--surface2);border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 0;cursor:pointer;transition:all .15s;text-align:center;text-decoration:none;display:block;margin-top:auto}
 .pricing-cta:hover{border-color:var(--blue);color:var(--blue)}
 .pricing-cta.featured-cta{background:var(--blue);color:#fff;border-color:var(--blue)}
 .pricing-cta.featured-cta:hover{opacity:.88}
-.pricing-note{font-size:11px;color:var(--ink3);text-align:center;margin-top:16px}
-
-/* DISCLAIMER */
-.disclaimer-band{background:var(--amber-pale);border-top:1px solid rgba(180,83,9,.12);border-bottom:1px solid rgba(180,83,9,.12);padding:16px 24px;text-align:center}
-.disclaimer-band p{font-size:12.5px;color:var(--amber);max-width:700px;margin:0 auto;line-height:1.6}
+.pricing-note{font-size:11px;color:var(--ink3);text-align:center;margin-top:18px}
 
 /* FAQ */
-.faq-list{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:0}
+.faq-list{max-width:620px;margin:0 auto}
 .faq-item{border-bottom:1px solid var(--line)}
 .faq-item:first-child{border-top:1px solid var(--line)}
-details summary{display:flex;align-items:center;justify-content:space-between;padding:16px 0;font-size:14px;font-weight:500;color:var(--ink);cursor:pointer;list-style:none;gap:12px;user-select:none}
+details summary{display:flex;align-items:center;justify-content:space-between;padding:15px 0;font-size:14px;font-weight:500;color:var(--ink);cursor:pointer;list-style:none;gap:12px;user-select:none}
 details summary::-webkit-details-marker{display:none}
 .faq-chevron{font-size:10px;color:var(--ink3);transition:transform .2s;flex-shrink:0}
 details[open] .faq-chevron{transform:rotate(180deg)}
-details p{font-size:13.5px;color:var(--ink2);line-height:1.7;padding-bottom:16px}
+details p{font-size:13.5px;color:var(--ink2);line-height:1.75;padding-bottom:15px}
 
 /* CTA BAND */
 .cta-band{background:var(--ink);padding:80px 24px;text-align:center}
-.cta-band h2{font-family:var(--mono);font-weight:800;font-size:clamp(24px,4vw,38px);color:#fff;letter-spacing:-.5px;margin-bottom:12px}
-.cta-band p{font-size:15px;color:rgba(255,255,255,.55);margin-bottom:32px;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.7}
-.cta-band .btn-primary{background:var(--blue);font-size:15px}
+.cta-band h2{font-family:var(--mono);font-weight:800;font-size:clamp(22px,4vw,36px);color:#fff;letter-spacing:-.5px;margin-bottom:12px}
+.cta-band p{font-size:15px;color:rgba(255,255,255,.45);margin-bottom:30px;max-width:380px;margin-left:auto;margin-right:auto;line-height:1.7}
+.cta-band .btn-primary{background:var(--blue)}
 
 /* FOOTER */
-footer{background:var(--surface);border-top:1px solid var(--line);padding:32px 24px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+footer{background:var(--surface);border-top:1px solid var(--line);padding:30px 24px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
 .footer-logo{font-family:var(--mono);font-weight:700;font-size:16px;color:var(--ink)}
 .footer-logo em{color:var(--blue);font-style:normal}
 .footer-links{display:flex;gap:20px;flex-wrap:wrap;justify-content:center}
 .footer-links a{font-size:12px;color:var(--ink3);text-decoration:none;transition:color .15s}
 .footer-links a:hover{color:var(--ink2)}
-.footer-copy{font-size:11.5px;color:var(--ink3)}
+.footer-copy{font-size:11px;color:var(--ink3)}
 
 /* MOBILE */
 @media(max-width:640px){
   nav{padding:0 16px}
-  .stats-band{gap:0;overflow-x:auto}
-  .stat-item{padding:0 20px;min-width:fit-content}
+  .nav-link{display:none}
+  .stat-item{padding:10px 20px;border-right:none;border-bottom:1px solid var(--line)}
+  .stat-item:last-child{border-bottom:none}
   .how-grid{grid-template-columns:1fr}
   .features-grid{grid-template-columns:1fr}
-  .pricing-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr;max-width:360px;margin:0 auto}
   .pricing-card.featured{order:-1}
+  .scores-inner{grid-template-columns:1fr;gap:36px}
   section{padding:56px 16px}
   .hero{padding:88px 16px 48px}
+  .scores-section{padding:56px 16px}
 }
 </style>
 </head>
@@ -170,26 +207,56 @@ footer{background:var(--surface);border-top:1px solid var(--line);padding:32px 2
 
 <nav>
   <a class="nav-logo" href="#">Spor<em>Tiser</em></a>
-  <a class="nav-cta" href="#pricing">Commencer →</a>
+  <div class="nav-right">
+    <a class="nav-link" href="#how">Méthode</a>
+    <a class="nav-link" href="#scores">Scores exacts</a>
+    <a class="nav-link" href="#pricing">Tarifs</a>
+    <a class="nav-cta" href="app.html">Voir l'app →</a>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>Coupe du Monde 2026 · 72 matchs analysés</div>
-  <h1>Le modèle statistique qui <em>décrypte</em> chaque match</h1>
-  <p class="hero-sub">Probabilités Poisson, xG, matrice de scores, cotes estimées. Toutes les données pour analyser un match de football avant de prendre une décision.</p>
+  <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>Analyses statistiques avancées · Football</div>
+  <h1>Le modèle mathématique qui <em>décrypte</em> chaque match</h1>
+  <p class="hero-sub">Probabilités, scores exacts, marchés de paris — calculés par un modèle statistique rigoureux, pas au doigt mouillé.</p>
+
+  <div class="hero-matrix-demo">
+    <div class="matrix-match-bar">
+      <div class="mmb-team"><span class="mmb-flag">🇫🇷</span><span class="mmb-name">France</span></div>
+      <div class="mmb-center"><div class="mmb-vs">vs</div><div class="mmb-xg">xG 2.3 – 1.0</div></div>
+      <div class="mmb-team r"><span class="mmb-flag">🇸🇳</span><span class="mmb-name">Sénégal</span></div>
+    </div>
+    <div class="matrix-table-wrap">
+      <table class="mtx">
+        <thead>
+          <tr>
+            <th class="rh" style="font-size:8.5px">↓ / →</th>
+            <th>0</th><th>1</th><th>2</th><th>3</th><th>4</th>
+          </tr>
+        </thead>
+        <tbody id="matrix-body"></tbody>
+      </table>
+    </div>
+    <div class="prob-bar-demo">
+      <div class="pbd-label">Probabilités 1X2</div>
+      <div class="pbd-track"><div class="pf-h" style="width:62%"></div><div class="pf-d" style="width:18%"></div><div class="pf-a" style="width:20%"></div></div>
+      <div class="pbd-nums"><span style="color:var(--blue)">France 62%</span><span style="color:var(--ink3)">Nul 18%</span><span style="color:var(--slate)">Sénégal 20%</span></div>
+    </div>
+  </div>
+
   <div class="hero-actions">
     <a class="btn-primary" href="#pricing">Accéder aux analyses →</a>
-    <a class="btn-secondary" href="app.html">Voir un exemple →</a>
+    <a class="btn-secondary" href="app.html">Voir un exemple</a>
   </div>
   <p class="hero-disclaimer">Outil d'analyse statistique uniquement. Les probabilités ne constituent pas des conseils en matière de paris. Jouer comporte des risques.</p>
 </section>
 
 <!-- STATS BAND -->
 <div class="stats-band">
-  <div class="stat-item"><div class="stat-val">72</div><div class="stat-lbl">Matchs CDM 2026</div></div>
   <div class="stat-item"><div class="stat-val">Poisson</div><div class="stat-lbl">Modèle statistique</div></div>
-  <div class="stat-item"><div class="stat-val">12</div><div class="stat-lbl">Groupes couverts</div></div>
+  <div class="stat-item"><div class="stat-val">1X2</div><div class="stat-lbl">Résultats & cotes</div></div>
+  <div class="stat-item"><div class="stat-val">Score exact</div><div class="stat-lbl">Matrice complète</div></div>
   <div class="stat-item"><div class="stat-val">Temps réel</div><div class="stat-lbl">Mise à jour live</div></div>
 </div>
 
@@ -198,57 +265,56 @@ footer{background:var(--surface);border-top:1px solid var(--line);padding:32px 2
   <div class="section-inner">
     <div class="section-eyebrow">Méthode</div>
     <h2 class="section-title">Comment fonctionne le modèle</h2>
-    <p class="section-sub">Un moteur mathématique rigoureux, pas des pronostics au doigt mouillé.</p>
+    <p class="section-sub">Un moteur mathématique construit sur des données réelles — pas des opinions.</p>
     <div class="how-grid">
       <div class="how-card">
-        <div class="how-num">01</div>
-        <div class="how-title">Données xG</div>
-        <div class="how-desc">Le modèle s'appuie sur les expected goals (xG) de chaque équipe — une mesure de la qualité réelle des occasions créées, plus fiable que les buts marqués.</div>
+        <div class="how-step">01</div>
+        <div class="how-title">Données de qualité</div>
+        <div class="how-desc">Le modèle s'appuie sur les expected goals (xG) de chaque équipe — une mesure de la qualité réelle des occasions créées, plus fiable que les simples buts marqués.</div>
       </div>
       <div class="how-card">
-        <div class="how-num">02</div>
-        <div class="how-title">Distribution de Poisson</div>
-        <div class="how-desc">À partir des xG, une loi de Poisson calcule la probabilité de chaque score possible (0-0, 1-0, 2-1...) et en déduit les probabilités 1X2, BTTS, totaux de buts.</div>
+        <div class="how-step">02</div>
+        <div class="how-title">Modèle mathématique</div>
+        <div class="how-desc">Un algorithme calcule la probabilité de chaque score possible (0-0, 1-0, 2-1…) et en déduit les probabilités pour chaque marché : résultat, nombre de buts, BTTS.</div>
       </div>
       <div class="how-card">
-        <div class="how-num">03</div>
+        <div class="how-step">03</div>
         <div class="how-title">Résultats lisibles</div>
-        <div class="how-desc">Probabilités en %, cotes estimées, matrice de scores et indicateurs de confiance. Tu vois en un coup d'œil ce que dit le modèle pour chaque marché.</div>
+        <div class="how-desc">Matrice de scores colorée, probabilités en %, cotes estimées et indicateurs de confiance. Tu vois en un coup d'œil ce que dit le modèle pour chaque marché.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PREVIEW -->
-<section>
-  <div class="section-inner" style="text-align:center">
-    <div class="section-eyebrow">Aperçu</div>
-    <h2 class="section-title">Ce que tu vois sur chaque match</h2>
-    <p class="section-sub" style="margin:0 auto 40px">Un tableau de bord complet pour chaque rencontre.</p>
-    <div class="preview-wrap">
-      <div class="preview-bar">
-        <div class="preview-dot" style="background:#f87171"></div>
-        <div class="preview-dot" style="background:#fbbf24"></div>
-        <div class="preview-dot" style="background:#4ade80"></div>
-        <div class="preview-url">sportiser.app · France vs Sénégal</div>
+<!-- SCORES EXACTS -->
+<section id="scores" class="scores-section">
+  <div class="scores-inner">
+    <div class="scores-text">
+      <div class="section-eyebrow">Score exact</div>
+      <h2 class="section-title" style="color:#fff;font-family:var(--mono);font-weight:800;letter-spacing:-.5px;line-height:1.15;margin-bottom:14px;font-size:clamp(21px,3.5vw,34px)">La matrice qui prédit chaque score</h2>
+      <p class="section-sub" style="margin-bottom:28px">Chaque case représente la probabilité d'un score exact. Plus la case est foncée, plus le score est probable selon le modèle.</p>
+      <div class="scores-bullets">
+        <div class="sb"><span class="sb-dot"></span><span class="sb-text"><strong>Score le plus probable mis en avant</strong> — la case avec la plus haute probabilité ressort clairement dans la matrice.</span></div>
+        <div class="sb"><span class="sb-dot"></span><span class="sb-text"><strong>Dégradé visuel instantané</strong> — du bleu intense au gris pâle, tu identifies les scores à jouer en quelques secondes.</span></div>
+        <div class="sb"><span class="sb-dot"></span><span class="sb-text"><strong>Calibration vérifiable</strong> — la page Performance montre combien de scores exacts le modèle a correctement identifiés sur les matchs passés.</span></div>
       </div>
-      <div class="preview-body">
-        <div class="preview-match-header">
-          <div class="preview-team"><span class="preview-flag">🇫🇷</span><span class="preview-name">France</span><span style="font-size:10px;color:var(--ink3)">FIFA #2</span></div>
-          <div class="preview-center"><div class="preview-score">3 – 1</div><div class="preview-status">Terminé · Gr. I</div></div>
-          <div class="preview-team r"><span class="preview-flag">🇸🇳</span><span class="preview-name">Sénégal</span><span style="font-size:10px;color:var(--ink3)">FIFA #20</span></div>
-        </div>
-        <div class="preview-prob-bar">
-          <div class="preview-prob-label">Probabilités (Poisson)</div>
-          <div class="preview-track"><div class="preview-fill-h"></div><div class="preview-fill-d"></div><div class="preview-fill-a"></div></div>
-          <div class="preview-prob-nums"><span style="color:var(--blue);font-weight:700">62%</span><span style="color:var(--ink3)">Nul 18%</span><span style="color:var(--slate);font-weight:700">20%</span></div>
-        </div>
-        <div class="preview-paris-grid">
-          <div class="preview-paris-card"><div class="preview-paris-label">Plus de 2,5 buts</div><div class="preview-paris-val">71%</div><span class="preview-paris-pill pill-high">Probable</span></div>
-          <div class="preview-paris-card"><div class="preview-paris-label">Les deux équipes marquent</div><div class="preview-paris-val">58%</div><span class="preview-paris-pill pill-high">Probable</span></div>
-          <div class="preview-paris-card"><div class="preview-paris-label">Clean sheet France</div><div class="preview-paris-val">37%</div><span class="preview-paris-pill pill-mid">Possible</span></div>
-          <div class="preview-paris-card"><div class="preview-paris-label">Score exact 2-1</div><div class="preview-paris-val">9%</div><span class="preview-paris-pill pill-mid">Possible</span></div>
-        </div>
+    </div>
+    <div class="scores-visual">
+      <div class="sv-label">Exemple · France vs Sénégal</div>
+      <table class="dmtx">
+        <thead>
+          <tr>
+            <th class="rh" style="font-size:8px">↓ / →</th>
+            <th>0</th><th>1</th><th>2</th><th>3</th>
+          </tr>
+        </thead>
+        <tbody id="dark-matrix-body"></tbody>
+      </table>
+      <div class="sv-pills">
+        <span class="sv-pill featured">Score le + probable : 2-1</span>
+        <span class="sv-pill">Plus de 2,5 buts : 71%</span>
+        <span class="sv-pill">BTTS : 58%</span>
+        <span class="sv-pill">Clean sheet : 37%</span>
       </div>
     </div>
   </div>
@@ -261,19 +327,19 @@ footer{background:var(--surface);border-top:1px solid var(--line);padding:32px 2
     <h2 class="section-title">Tout ce dont tu as besoin</h2>
     <p class="section-sub">Conçu pour aller à l'essentiel rapidement.</p>
     <div class="features-grid">
-      <div class="feat-card"><div class="feat-icon blue">📊</div><div><div class="feat-title">Probabilités 1X2</div><div class="feat-desc">Victoire domicile, nul, victoire extérieur. Avec niveau de confiance et cote estimée pour chaque issue.</div></div></div>
-      <div class="feat-card"><div class="feat-icon green">⚽</div><div><div class="feat-title">Marchés buts</div><div class="feat-desc">Over/Under 1,5 · 2,5 · 3,5, BTTS, clean sheet. Les marchés les plus joués, tous couverts.</div></div></div>
-      <div class="feat-card"><div class="feat-icon amber">🎯</div><div><div class="feat-title">Matrice de scores</div><div class="feat-desc">Visualise la probabilité de chaque score exact en un coup d'œil. Les cases les plus probables ressortent clairement.</div></div></div>
-      <div class="feat-card"><div class="feat-icon blue">📈</div><div><div class="feat-title">Statistiques comparées</div><div class="feat-desc">xG, possession, tirs, corners, forme récente des deux équipes côte à côte.</div></div></div>
-      <div class="feat-card"><div class="feat-icon slate">👥</div><div><div class="feat-title">Compositions & joueurs</div><div class="feat-desc">Statut des joueurs clés (disponible, blessé, incertain) pour affiner ton analyse avant le coup d'envoi.</div></div></div>
-      <div class="feat-card"><div class="feat-icon green">🏆</div><div><div class="feat-title">Page performance</div><div class="feat-desc">Précision du modèle en temps réel : taux de bonnes prédictions 1X2, scores exacts trouvés, calibrage par marché.</div></div></div>
+      <div class="feat-card"><div class="feat-icon purple">◆</div><div><div class="feat-title">Matrice de scores</div><div class="feat-desc">Visualise la probabilité de chaque score exact. Les cases les plus probables ressortent en bleu — tu identifies les scores à jouer en un coup d'œil.</div></div></div>
+      <div class="feat-card"><div class="feat-icon blue">%</div><div><div class="feat-title">Probabilités 1X2</div><div class="feat-desc">Victoire domicile, nul, victoire extérieur. Avec niveau de confiance et cote estimée pour chaque issue.</div></div></div>
+      <div class="feat-card"><div class="feat-icon green">○</div><div><div class="feat-title">Marchés buts</div><div class="feat-desc">Over/Under 1,5 · 2,5 · 3,5, BTTS, clean sheet. Les marchés les plus joués, tous couverts avec leur probabilité.</div></div></div>
+      <div class="feat-card"><div class="feat-icon blue">↗</div><div><div class="feat-title">Statistiques comparées</div><div class="feat-desc">xG, possession, tirs, corners, forme récente des deux équipes côte à côte.</div></div></div>
+      <div class="feat-card"><div class="feat-icon slate">≡</div><div><div class="feat-title">Compositions & joueurs</div><div class="feat-desc">Statut des joueurs clés (disponible, blessé, incertain) pour affiner ton analyse avant le coup d'envoi.</div></div></div>
+      <div class="feat-card"><div class="feat-icon amber">✓</div><div><div class="feat-title">Page performance</div><div class="feat-desc">Précision du modèle en temps réel : taux de bonnes prédictions 1X2, scores exacts trouvés, calibrage par marché.</div></div></div>
     </div>
   </div>
 </section>
 
-<!-- DISCLAIMER BAND -->
+<!-- DISCLAIMER -->
 <div class="disclaimer-band">
-  <p>⚠️ SporTiser est un outil d'analyse statistique. Les probabilités affichées sont des estimations mathématiques fournies à titre informatif. Elles ne constituent pas des conseils en matière de paris sportifs. Les jeux d'argent comportent des risques. Jouer comporte des risques, appelez le 09 74 75 13 13 (numéro national de référence).</p>
+  <p>SporTiser est un outil d'analyse statistique. Les probabilités affichées sont des estimations mathématiques fournies à titre informatif et ne constituent pas des conseils en matière de paris sportifs. Les jeux d'argent comportent des risques — Numéro national : 09 74 75 13 13.</p>
 </div>
 
 <!-- PRICING -->
@@ -282,49 +348,54 @@ footer{background:var(--surface);border-top:1px solid var(--line);padding:32px 2
     <div class="section-eyebrow">Tarifs</div>
     <h2 class="section-title">Accès aux analyses complètes</h2>
     <p class="section-sub" style="margin:0 auto 48px">Sans engagement pour l'hebdomadaire et le mensuel. Résiliation en un clic.</p>
-    <div class="pricing-grid">
-      <div class="pricing-card">
-        <div class="pricing-name">Hebdomadaire</div>
-        <div class="pricing-price">9,99€</div>
-        <div class="pricing-period">par semaine · sans engagement</div>
-        <ul class="pricing-features">
-          <li>Tous les matchs CDM 2026</li>
-          <li>Probabilités complètes</li>
-          <li>Matrice de scores</li>
-          <li>Joueurs & H2H</li>
-        </ul>
-        <a class="pricing-cta" href="https://buy.stripe.com/14AfZb0a15tO4TCf32bQY03" target="_blank">Commencer →</a>
+    <div class="pricing-outer">
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-name">Hebdomadaire</div>
+          <div class="pricing-price"><sup>€</sup>9,99</div>
+          <div class="pricing-period">par semaine · sans engagement</div>
+          <div class="pricing-sep"></div>
+          <ul class="pricing-features">
+            <li>Tous les matchs disponibles</li>
+            <li>Matrice de scores exacte</li>
+            <li>Probabilités complètes</li>
+            <li>Joueurs & confrontations</li>
+          </ul>
+          <a class="pricing-cta" href="https://buy.stripe.com/14AfZb0a15tO4TCf32bQY03" target="_blank">Commencer →</a>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-badge">Le plus choisi</div>
+          <div class="pricing-name">Mensuel</div>
+          <div class="pricing-price"><sup>€</sup>29,99</div>
+          <div class="pricing-period">par mois · sans engagement</div>
+          <div class="pricing-sep"></div>
+          <ul class="pricing-features">
+            <li>Tous les matchs disponibles</li>
+            <li>Matrice de scores exacte</li>
+            <li>Probabilités complètes</li>
+            <li>Joueurs & confrontations</li>
+            <li>Accès aux nouvelles ligues</li>
+          </ul>
+          <a class="pricing-cta featured-cta" href="https://buy.stripe.com/5kQfZb2i95tO0Dm6wwbQY02" target="_blank">Commencer →</a>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-name">Annuel</div>
+          <div class="pricing-price"><sup>€</sup>249,99</div>
+          <div class="pricing-period">par an · meilleur tarif</div>
+          <div class="pricing-sep"></div>
+          <ul class="pricing-features">
+            <li>Tous les matchs disponibles</li>
+            <li>Matrice de scores exacte</li>
+            <li>Probabilités complètes</li>
+            <li>Joueurs & confrontations</li>
+            <li>Accès aux nouvelles ligues</li>
+            <li>Nouvelles compétitions en accès anticipé</li>
+          </ul>
+          <a class="pricing-cta" href="https://buy.stripe.com/7sY3cp3md6xS0Dm5ssbQY04" target="_blank">Commencer →</a>
+        </div>
       </div>
-      <div class="pricing-card featured">
-        <div class="pricing-badge">Le plus choisi</div>
-        <div class="pricing-name">Mensuel</div>
-        <div class="pricing-price">29,99€</div>
-        <div class="pricing-period">par mois · sans engagement</div>
-        <ul class="pricing-features">
-          <li>Tous les matchs CDM 2026</li>
-          <li>Probabilités complètes</li>
-          <li>Matrice de scores</li>
-          <li>Joueurs & H2H</li>
-          <li>Phases éliminatoires incluses</li>
-        </ul>
-        <a class="pricing-cta featured-cta" href="https://buy.stripe.com/5kQfZb2i95tO0Dm6wwbQY02" target="_blank">Commencer →</a>
-      </div>
-      <div class="pricing-card">
-        <div class="pricing-name">Annuel</div>
-        <div class="pricing-price">249,99€</div>
-        <div class="pricing-period">par an · meilleur tarif</div>
-        <ul class="pricing-features">
-          <li>Tous les matchs CDM 2026</li>
-          <li>Probabilités complètes</li>
-          <li>Matrice de scores</li>
-          <li>Joueurs & H2H</li>
-          <li>Phases éliminatoires incluses</li>
-          <li>Prochaines ligues en accès anticipé</li>
-        </ul>
-        <a class="pricing-cta" href="https://buy.stripe.com/7sY3cp3md6xS0Dm5ssbQY04" target="_blank">Commencer →</a>
-      </div>
+      <p class="pricing-note">Paiement sécurisé par Stripe · Résiliation en un clic · Aucun engagement sur les formules hebdo et mensuelle</p>
     </div>
-    <p class="pricing-note">Paiement sécurisé par Stripe · Résiliation en un clic · Aucun engagement sur les formules hebdo et mensuelle</p>
   </div>
 </section>
 
@@ -335,19 +406,20 @@ footer{background:var(--surface);border-top:1px solid var(--line);padding:32px 2
     <h2 class="section-title">Questions fréquentes</h2>
     <p class="section-sub" style="margin:0 auto 40px">Tout ce que tu dois savoir avant de commencer.</p>
     <div class="faq-list">
-      <details class="faq-item"><summary>C'est quoi exactement SporTiser ? <span class="faq-chevron">▼</span></summary><p>SporTiser est un outil d'analyse statistique qui applique le modèle mathématique de Poisson aux matchs de football. Il calcule des probabilités pour chaque issue possible (victoire, nul, défaite, nombre de buts, score exact...) à partir des données xG des équipes.</p></details>
-      <details class="faq-item"><summary>Le modèle prédit-il vraiment les résultats ? <span class="faq-chevron">▼</span></summary><p>Non. Le modèle calcule des probabilités statistiques, pas des certitudes. Il peut dire que l'équipe A a 65% de chances de gagner — ça ne signifie pas qu'elle gagnera à tous les coups. La page Performance affiche en temps réel la précision du modèle sur les matchs passés.</p></details>
-      <details class="faq-item"><summary>Quels matchs sont couverts ? <span class="faq-chevron">▼</span></summary><p>Actuellement tous les 72 matchs de la phase de groupes de la Coupe du Monde 2026 (USA / Canada / Mexique). Les phases éliminatoires et d'autres ligues (Premier League, Liga, Bundesliga, Champions League) arrivent prochainement.</p></details>
-      <details class="faq-item"><summary>Comment résilier mon abonnement ? <span class="faq-chevron">▼</span></summary><p>En un clic depuis le portail client Stripe accessible depuis l'application. Aucune démarche par email nécessaire. Les formules hebdomadaire et mensuelle sont sans engagement.</p></details>
-      <details class="faq-item"><summary>L'accès est-il immédiat après paiement ? <span class="faq-chevron">▼</span></summary><p>Oui, l'accès Premium est activé automatiquement dans les 1-2 minutes suivant le paiement. Il suffit de se connecter avec l'email utilisé lors de l'achat.</p></details>
+      <details class="faq-item"><summary>C'est quoi exactement SporTiser ?<span class="faq-chevron">▼</span></summary><p>SporTiser est un outil d'analyse statistique football. Il calcule, pour chaque match, les probabilités de chaque issue possible — résultat, nombre de buts, score exact, BTTS — à partir des données de qualité de jeu des deux équipes.</p></details>
+      <details class="faq-item"><summary>Sur quel modèle reposent les analyses ?<span class="faq-chevron">▼</span></summary><p>Le modèle s'appuie sur la loi de Poisson, une formule mathématique utilisée en statistiques pour modéliser des événements discrets comme des buts. En partant des expected goals (xG) de chaque équipe, il calcule la probabilité de chaque score possible et en déduit tous les marchés. C'est l'un des modèles les plus rigoureux et les plus utilisés dans l'analyse football avancée.</p></details>
+      <details class="faq-item"><summary>Le modèle prédit-il vraiment les résultats ?<span class="faq-chevron">▼</span></summary><p>Non. Il calcule des probabilités statistiques, pas des certitudes. Dire que l'équipe A a 65% de chances de gagner ne signifie pas qu'elle gagnera à chaque fois. La page Performance affiche en temps réel la précision du modèle sur les matchs passés.</p></details>
+      <details class="faq-item"><summary>Quelles compétitions sont couvertes ?<span class="faq-chevron">▼</span></summary><p>SporTiser couvre actuellement la Coupe du Monde 2026. D'autres ligues — Premier League, La Liga, Bundesliga, Serie A, Champions League — arrivent prochainement. Les abonnés mensuels et annuels y auront accès automatiquement dès leur disponibilité.</p></details>
+      <details class="faq-item"><summary>Comment résilier mon abonnement ?<span class="faq-chevron">▼</span></summary><p>En un clic depuis le portail client Stripe, accessible directement depuis l'application. Aucune démarche par email. Les formules hebdomadaire et mensuelle sont sans engagement.</p></details>
+      <details class="faq-item"><summary>L'accès est-il immédiat après paiement ?<span class="faq-chevron">▼</span></summary><p>Oui, l'accès est activé automatiquement dans les 1 à 2 minutes suivant le paiement. Il suffit de se connecter avec l'adresse email utilisée lors de l'achat.</p></details>
     </div>
   </div>
 </section>
 
-<!-- CTA FINAL -->
+<!-- CTA -->
 <div class="cta-band">
-  <h2>Prêt à analyser les matchs autrement ?</h2>
-  <p>Rejoins les analystes qui utilisent les statistiques pour aller au-delà de l'instinct.</p>
+  <h2>Analyse les matchs autrement.</h2>
+  <p>Les statistiques avancées. La matrice de scores. Les probabilités réelles.</p>
   <a class="btn-primary" href="#pricing">Voir les formules →</a>
 </div>
 
@@ -361,8 +433,49 @@ footer{background:var(--surface);border-top:1px solid var(--line);padding:32px 2
     <a href="#">CGV</a>
     <a href="#">Politique de confidentialité</a>
   </div>
-  <p class="footer-copy">© 2026 SporTiser · Outil d'analyse statistique football · Tous droits réservés</p>
+  <p class="footer-copy">© 2026 SporTiser · Analyses statistiques football · Tous droits réservés</p>
 </footer>
 
+<script>
+function ppf(lam,k){if(k<0)return 0;var lp=-lam+k*Math.log(lam);for(var i=1;i<=k;i++)lp-=Math.log(i);return Math.exp(lp);}
+
+function buildMatrix(lH,lA,maxH,maxA){
+  var mat=[],total=0;
+  for(var h=0;h<=maxH;h++){mat[h]=[];for(var a=0;a<=maxA;a++){var p=ppf(lH,h)*ppf(lA,a);mat[h][a]=p;total+=p;}}
+  for(var h=0;h<=maxH;h++)for(var a=0;a<=maxA;a++)mat[h][a]=Math.round(mat[h][a]/total*1000)/10;
+  return mat;
+}
+
+function cellClass(r,prefix){
+  if(r>0.65)return prefix+'hot';
+  if(r>0.28)return prefix+'warm';
+  if(r>0.08)return prefix+'cool';
+  return prefix+'cold';
+}
+
+(function(){
+  var mat=buildMatrix(2.3,1.0,4,4),maxP=0;
+  for(var h=0;h<=4;h++)for(var a=0;a<=4;a++)if(mat[h][a]>maxP)maxP=mat[h][a];
+  var html='';
+  for(var h=0;h<=4;h++){
+    html+='<tr><th class="rh" style="font-size:9.5px;color:var(--ink3);text-align:right;padding-right:8px;font-weight:600">'+h+'</th>';
+    for(var a=0;a<=4;a++){var p=mat[h][a],r=p/maxP;html+='<td class="mc '+cellClass(r,'mc-')+'"><span class="mc-score">'+h+'–'+a+'</span><span class="mc-pct">'+p+'%</span></td>';}
+    html+='</tr>';
+  }
+  document.getElementById('matrix-body').innerHTML=html;
+})();
+
+(function(){
+  var mat=buildMatrix(2.3,1.0,3,3),maxP=0;
+  for(var h=0;h<=3;h++)for(var a=0;a<=3;a++)if(mat[h][a]>maxP)maxP=mat[h][a];
+  var html='';
+  for(var h=0;h<=3;h++){
+    html+='<tr><th class="rh" style="font-size:8.5px;color:rgba(255,255,255,.3);text-align:right;padding-right:8px;font-weight:600">'+h+'</th>';
+    for(var a=0;a<=3;a++){var p=mat[h][a],r=p/maxP;html+='<td class="dc '+cellClass(r,'dc-')+'"><span class="dc-score">'+h+'–'+a+'</span><span class="dc-pct">'+p+'%</span></td>';}
+    html+='</tr>';
+  }
+  document.getElementById('dark-matrix-body').innerHTML=html;
+})();
+</script>
 </body>
 </html>
